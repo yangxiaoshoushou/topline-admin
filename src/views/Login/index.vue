@@ -5,11 +5,12 @@
         <img src="./logo_index.png" alt="黑马头条">
       </div>
       <div class="login-form">
-        <el-form ref="form" :model="form">
-          <el-form-item>
+
+        <el-form :model="form" :rules="rules" ref="ruleForm">
+          <el-form-item prop="mobile">
             <el-input v-model="form.mobile" placeholder="手机号"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="code">
             <!-- 支持栅格布局，一共是24列 -->
             <el-col :span="10">
               <el-input v-model="form.code" placeholder="验证码"></el-input>
@@ -20,7 +21,12 @@
           </el-form-item>
           <el-form-item>
             <!-- 给组件加 class，会作用到它的根元素 -->
-            <el-button class="btn-login" type="primary" @click="handleLogin">登录</el-button>
+            <el-button
+              class="btn-login"
+              type="primary"
+              @click="handleLogin"
+              :loading="loginloading"
+            >登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -40,11 +46,32 @@ export default {
         mobile: '15133029565',
         code: ''
       },
+      loginloading: false,
+      rules: {
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { len: 11, message: '长度是11个字符', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '长度是6个字符', trigger: 'blur' }
+        ]
+      },
       captchaObj: null
     }
   },
   methods: {
     handleLogin () {
+      this.$refs['ruleForm'].validate(valid => {
+        if (!valid) {
+          return
+        }
+        this.submitLogin()
+      })
+    },
+
+    submitLogin () {
+      this.loginloading = true
       axios({
         method: 'POST',
         url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
@@ -54,7 +81,7 @@ export default {
           message: '恭喜登录成功',
           type: 'success'
         })
-
+        this.loginloading = false
         this.$router.push({
           name: 'home'
         })
