@@ -30,6 +30,8 @@
 
 <script>
 import axios from 'axios'
+import '@/vendor/gt.js'
+
 export default {
   name: 'AppLogin',
   data () {
