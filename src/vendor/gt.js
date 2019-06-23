@@ -273,4 +273,4 @@
     };
     window.initGeetest = initGeetest;
     return initGeetest;
-});
+})
