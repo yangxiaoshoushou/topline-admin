@@ -72,13 +72,29 @@ export default {
             // 只有 ready 了才能显示验证码
             captchaObj.verify()
           }).onSuccess(function () {
-            console.log('验证成功了')
+            const {
+              geetest_challenge: challenge,
+              geetest_seccode: seccode,
+              geetest_validate: validate } =
+            captchaObj.getValidate()
+            axios({
+              method: '',
+              url: `http://ttapi.research.itcast.cn/mp/v1_0/sms/codes/${mobile}`,
+              params: {
+                challenge,
+                seccode,
+                validate
+              }
+            }).then(res => {
+              console.log(res.data)
+            })
           })
         })
       })
     }
   }
 }
+
 </script>
 
 <style lang="less" scoped>
