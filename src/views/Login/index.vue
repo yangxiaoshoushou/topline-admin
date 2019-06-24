@@ -19,7 +19,7 @@
               <!-- <el-button @click="handleSendCode">获取验证码</el-button> -->
               <el-button
                 @click="handleSendCode"
-                :disabled="!!codeTimer"
+                :disabled="!!codeTimer || codeLoading"
               >
                 {{ codeTimer ? `剩余${codeSecons}秒` : '获取验证码' }}
               </el-button>
@@ -76,7 +76,8 @@ export default {
       captchaObj: null,
       codeSecons: initCodeSeconds,
       codeTimer: null,
-      sendMobile: ''
+      sendMobile: '',
+      codeLoading: false
     }
   },
   methods: {
@@ -156,6 +157,7 @@ export default {
             // 只有 ready 了才能显示验证码
             this.sendMobile = this.form.mobile
             captchaObj.verify()
+            this.codeLoading = false
           }).onSuccess(() => {
             const {
               geetest_challenge: challenge,
