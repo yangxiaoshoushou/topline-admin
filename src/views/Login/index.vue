@@ -16,7 +16,14 @@
               <el-input v-model="form.code" placeholder="验证码"></el-input>
             </el-col>
             <el-col :span="10" :offset="2">
-              <el-button @click="handleSendCode">获取验证码</el-button>
+              <!-- <el-button @click="handleSendCode">获取验证码</el-button> -->
+              <el-button
+                @click="handleSendCode"
+                :disabled="!!codeTimer"
+              >
+                {{ codeTimer ? `剩余${codeSecons}秒` : '获取验证码' }}
+              </el-button>
+
             </el-col>
           </el-form-item>
           <el-form-item prop="agree">
@@ -41,6 +48,7 @@
 <script>
 import axios from 'axios'
 import '@/vendor/gt.js'
+const initCodeSeconds = 10
 
 export default {
   name: 'AppLogin',
@@ -65,7 +73,9 @@ export default {
           { required: true, message: '请同意用户协议', trigger: 'change' },
           { pattern: /true/, message: '请同意用户协议', trigger: 'change' } ]
       },
-      captchaObj: null
+      captchaObj: null,
+      codeSecons: initCodeSeconds,
+      codeTimer: null
     }
   },
   methods: {
@@ -132,14 +142,14 @@ export default {
           captchaObj.onReady(function () {
             // 只有 ready 了才能显示验证码
             captchaObj.verify()
-          }).onSuccess(function () {
+          }).onSuccess(() => {
             const {
               geetest_challenge: challenge,
               geetest_seccode: seccode,
               geetest_validate: validate } =
             captchaObj.getValidate()
             axios({
-              method: '',
+              method: 'GET',
               url: `http://ttapi.research.itcast.cn/mp/v1_0/sms/codes/${mobile}`,
               params: {
                 challenge,
@@ -147,11 +157,21 @@ export default {
                 validate
               }
             }).then(res => {
-              console.log(res.data)
+              this.codeCountDown()
             })
           })
         })
       })
+    },
+    codeCountDown () {
+      this.codeTimer = window.setInterval(() => {
+        this.codeSecons--
+        if (this.codeSecons <= 0) {
+          this.codeSecons = initCodeSeconds
+          window.clearInterval(this.codeTimer)
+          this.codeTimer = null
+        }
+      }, 1000)
     }
   }
 }
