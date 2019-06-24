@@ -75,7 +75,8 @@ export default {
       },
       captchaObj: null,
       codeSecons: initCodeSeconds,
-      codeTimer: null
+      codeTimer: null,
+      sendMobile: ''
     }
   },
   methods: {
@@ -114,19 +115,31 @@ export default {
         if (errorMessage.trim().length > 0) {
           return
         }
-        this.showGeetest()
+        // 有没有插件对象
+        // 有通过
+        if (this.captchaObj) {
+          // return this.captchaObj.verify()
+        // this.showGeetest()
+        // 手机号码是否一致
+
+          if (this.form.mobile !== this.sendMobile) {
+            // 没有插件就初始化插件
+            document.body.removeChild(document.querySelector('.geetest_panel'))
+            this.showGeetest()
+          } else {
+            this.captchaObj.verify()
+          }
+        } else {
+          this.showGeetest()
+        }
       })
     },
 
     showGeetest () {
       const { mobile } = this.form
-      if (this.captchaObj) {
-        return this.captchaObj.verify()
-      }
-
       axios({
         method: 'GET',
-        url: `http://ttapi.research.itcast.cn/mp/v1_0/captchas/${mobile}`
+        url: `http://ttapi.research.itcast.cn/mp/v1_0/captchas/${this.form.mobile}`
       }).then(res => {
         const data = res.data.data
         window.initGeetest({
@@ -139,8 +152,9 @@ export default {
         }, (captchaObj) => {
           this.captchaObj = captchaObj
           // 这里可以调用验证实例 captchaObj 的实例方法
-          captchaObj.onReady(function () {
+          captchaObj.onReady(() => {
             // 只有 ready 了才能显示验证码
+            this.sendMobile = this.form.mobile
             captchaObj.verify()
           }).onSuccess(() => {
             const {
