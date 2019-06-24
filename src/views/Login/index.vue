@@ -19,6 +19,10 @@
               <el-button @click="handleSendCode">获取验证码</el-button>
             </el-col>
           </el-form-item>
+          <el-form-item prop="agree">
+            <el-checkbox v-model="form.agree"></el-checkbox>
+            <span>我已阅读并同意<a href="#">用户协议</a>和<a href="#">隐私条款</a></span>
+          </el-form-item>
           <el-form-item>
             <!-- 给组件加 class，会作用到它的根元素 -->
             <el-button
@@ -44,7 +48,8 @@ export default {
     return {
       form: {
         mobile: '15133029565',
-        code: ''
+        code: '',
+        agree: ''
       },
       loginloading: false,
       rules: {
@@ -55,7 +60,10 @@ export default {
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
           { len: 6, message: '长度是6个字符', trigger: 'blur' }
-        ]
+        ],
+        agree: [
+          { required: true, message: '请同意用户协议', trigger: 'change' },
+          { pattern: /true/, message: '请同意用户协议', trigger: 'change' } ]
       },
       captchaObj: null
     }
@@ -92,11 +100,20 @@ export default {
       })
     },
     handleSendCode () {
-      const { mobile } = this.form
+      this.$refs['ruleForm'].validateField('mobile', errorMessage => {
+        if (errorMessage.trim().length > 0) {
+          return
+        }
+        this.showGeetest()
+      })
+    },
 
+    showGeetest () {
+      const { mobile } = this.form
       if (this.captchaObj) {
         return this.captchaObj.verify()
       }
+
       axios({
         method: 'GET',
         url: `http://ttapi.research.itcast.cn/mp/v1_0/captchas/${mobile}`
@@ -163,6 +180,9 @@ export default {
     .btn-login {
       width: 100%;
     }
+  }
+  .el-checkbox{
+    margin-right: 10px
   }
 }
 </style>
