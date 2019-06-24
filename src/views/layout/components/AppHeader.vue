@@ -1,7 +1,19 @@
 <template>
-  <div>
-    <p>AppHeader Component</p>
-  </div>
+  <el-row class="app-header">
+    <el-col :span="14">江苏传智播客教育科技股份有限公司</el-col>
+    <el-col :span="10">
+      <el-dropdown trigger="click">
+        <span class="el-dropdown-link">
+          <img width="30" src="http://toutiao.meiduo.site/Fkj6tQi3xJwVXi1u2swCElotfdCi" alt="">
+          15133029565<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>账户设置</el-dropdown-item>
+          <el-dropdown-item>退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+  </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -14,5 +26,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-</style>
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+  .app-header {
+    padding-top: 10px;
+  }
+</style>8
