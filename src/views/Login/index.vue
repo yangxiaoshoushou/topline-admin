@@ -48,7 +48,7 @@
 <script>
 import axios from 'axios'
 import '@/vendor/gt.js'
-const initCodeSeconds = 10
+const initCodeSeconds = 60
 
 export default {
   name: 'AppLogin',
