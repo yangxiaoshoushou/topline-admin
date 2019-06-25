@@ -36,7 +36,7 @@
               class="btn-login"
               type="primary"
               @click="handleLogin"
-              :loading="loginloading"
+              :loading="loginLoading"
             >登录</el-button>
           </el-form-item>
         </el-form>
@@ -59,7 +59,7 @@ export default {
         code: '',
         agree: ''
       },
-      loginloading: false,
+      loginLoading: false,
       rules: {
         mobile: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -91,24 +91,28 @@ export default {
     },
 
     submitLogin () {
-      this.loginloading = true
+      this.loginLoading = true
       axios({
         method: 'POST',
         url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
         data: this.form
-      }).then(res => {
+      }).then(res => { // >= 200 && < 400 的状态码都会进入这里
+        // Element 提供的 Message 消息提示组件，这也是组件调用的一种形式
+        window.localStorage.setItem('user_info', JSON.stringify(res.data.data))
         this.$message({
-          message: '恭喜登录成功',
+          message: '登录成功',
           type: 'success'
         })
-        this.loginloading = false
+        this.loginLoading = false
+        // 建议路由跳转都使用 name 去跳转，路由传参非常方便
         this.$router.push({
           name: 'home'
         })
-      }).catch(err => {
+      }).catch(err => { // >= 400 的 HTTP 状态码都会进入 catch 中
         if (err.response.status === 400) {
           this.$message.error('登录失败，手机号或验证码错误')
         }
+        this.loginLoading = false
       })
     },
     handleSendCode () {
@@ -137,6 +141,7 @@ export default {
     },
 
     showGeetest () {
+      this.codeLoading = true
       const { mobile } = this.form
       axios({
         method: 'GET',

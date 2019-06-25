@@ -4,8 +4,8 @@
     <el-col :span="10">
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
-          <img width="30" src="http://toutiao.meiduo.site/Fkj6tQi3xJwVXi1u2swCElotfdCi" alt="">
-          15133029565<i class="el-icon-arrow-down el-icon--right"></i>
+          <img width="30" :src=" userInfo.photo ">
+          {{ userInfo.name }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>账户设置</el-dropdown-item>
@@ -20,20 +20,36 @@
 export default {
   name: 'AppHeader',
   data () {
-    return {}
+    return {
+      userInfo: {}
+    }
+  },
+  created () {
+    this.userInfo = JSON.parse(window.localStorage.getItem('user_info'))
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
+.el-dropdown-link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #409EFF;
+  img {
+    border-radius: 50%;
   }
+}
   .el-icon-arrow-down {
     font-size: 12px;
   }
   .app-header {
     padding-top: 10px;
   }
-</style>8
+  .app-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+</style>
