@@ -8,32 +8,32 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-menu-item index="2">
+      <el-menu-item index="/">
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>内容管理</span>
+          <span>内容</span>
         </template>
-        <el-menu-item index="1-2">
+        <el-menu-item index="/publish">
           <i class="el-icon-menu"></i>
-          <span slot="title">发布文章</span>
+          <span slot="title">发布</span>
         </el-menu-item>
         <el-menu-item index="1-3">
           <i class="el-icon-menu"></i>
           <span slot="title">内容列表</span>
         </el-menu-item>
+      </el-submenu>
         <el-menu-item index="1-4">
           <i class="el-icon-menu"></i>
-          <span slot="title">评论列表</span>
+          <span slot="title">评论</span>
         </el-menu-item>
         <el-menu-item index="1-5">
           <i class="el-icon-menu"></i>
-          <span slot="title">素材管理</span>
+          <span slot="title">素材</span>
         </el-menu-item>
-      </el-submenu>
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>

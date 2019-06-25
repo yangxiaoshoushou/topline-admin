@@ -7,7 +7,9 @@
       <el-header>
         <AppHeader/>
       </el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view/>
+      </el-main>
     </el-container>
   </el-container>
 </template>
