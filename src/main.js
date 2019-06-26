@@ -13,7 +13,9 @@ axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 // 请求拦截器
 axios.interceptors.request.use(config => {
   const userInfo = JSON.parse(window.localStorage.getItem('user_info'))
-  config.headers.Authorization = `Bearer ${userInfo.token}`
+  if (userInfo) {
+    config.headers.Authorization = `Bearer ${userInfo.token}`
+  }
   return config
 }, function (error) {
   return Promise.reject(error)
@@ -23,7 +25,13 @@ axios.interceptors.response.use(response => {
   // Do something with response data
   return response.data.data
 }, error => {
-  // Do something with response error
+  const status = error.response.status
+  if (status === 401) {
+    window.localStorage.removeItem('user_info')
+    router.push({
+      name: 'login'
+    })
+  }
   return Promise.reject(error)
 })
 Vue.prototype.$http = axios
