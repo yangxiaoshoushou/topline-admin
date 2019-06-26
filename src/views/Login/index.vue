@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import '@/vendor/gt.js'
 const initCodeSeconds = 60
 
@@ -92,9 +92,9 @@ export default {
 
     submitLogin () {
       this.loginLoading = true
-      axios({
+      this.$http({
         method: 'POST',
-        url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+        url: '/authorizations',
         data: this.form
       }).then(res => { // >= 200 && < 400 的状态码都会进入这里
         // Element 提供的 Message 消息提示组件，这也是组件调用的一种形式
@@ -143,9 +143,9 @@ export default {
     showGeetest () {
       this.codeLoading = true
       const { mobile } = this.form
-      axios({
+      this.$http({
         method: 'GET',
-        url: `http://ttapi.research.itcast.cn/mp/v1_0/captchas/${this.form.mobile}`
+        url: `/captchas/${this.form.mobile}`
       }).then(res => {
         const data = res.data.data
         window.initGeetest({
@@ -169,9 +169,9 @@ export default {
               geetest_seccode: seccode,
               geetest_validate: validate } =
             captchaObj.getValidate()
-            axios({
+            this.$http({
               method: 'GET',
-              url: `http://ttapi.research.itcast.cn/mp/v1_0/sms/codes/${mobile}`,
+              url: `/sms/codes/${mobile}`,
               params: {
                 challenge,
                 seccode,

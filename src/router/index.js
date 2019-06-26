@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import nprogress from 'nprogress'
 
 Vue.use(Router)
 
@@ -36,6 +37,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  nprogress.start()
   const userInfo = window.localStorage.getItem('user_info')
 
   // 如果是非 /login 页面，判断其登录状态
@@ -57,5 +59,7 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-
+router.afterEach((to, from) => {
+  nprogress.done()
+})
 export default router
