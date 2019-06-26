@@ -55,7 +55,7 @@ export default {
   data () {
     return {
       form: {
-        mobile: '15133029565',
+        mobile: '13911111111',
         code: '',
         agree: ''
       },
@@ -108,7 +108,7 @@ export default {
         this.$router.push({
           name: 'home'
         })
-      }).catch(err => { // >= 400 的 HTTP 状态码都会进入 catch 中
+      }).catch(err => {
         if (err.response.status === 400) {
           this.$message.error('登录失败，手机号或验证码错误')
         }

@@ -9,7 +9,7 @@ import './styles/index.less'
 
 import 'nprogress/nprogress.css'
 
-axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
+axios.defaults.baseURL = 'http://toutiao.course.itcast.cn/mp/v1_0/'
 // 请求拦截器
 axios.interceptors.request.use(config => {
   const userInfo = JSON.parse(window.localStorage.getItem('user_info'))
