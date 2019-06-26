@@ -55,7 +55,12 @@
         <el-table-column prop="pubdate" label="发布日期" width="180"></el-table-column>
         <el-table-column prop="status" label="状态"></el-table-column>
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+      <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="totalCount"
+      @current-change="handleCurrentChange"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
