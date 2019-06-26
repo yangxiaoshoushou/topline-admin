@@ -50,6 +50,7 @@
 </template>
 
 <script>
+// const userInfo = JSON.parse(window.localStorage.getItem('user_info'))
 export default {
   name: 'ArticleList',
   data () {
@@ -88,6 +89,17 @@ export default {
         Value: ''
       }
     }
+  },
+  created () {
+    this.$http({
+      method: 'GET',
+      url: '/articles',
+      headers: {
+        // Authorization: `Bearer ${userInfo.token}`
+      }
+    }).then(res => {
+      console.log(res)
+    })
   },
   methods: {
     onSubmit () {
