@@ -55,8 +55,8 @@ export default {
   data () {
     return {
       form: {
-        mobile: '13911111111',
-        code: '',
+        mobile: '15133029565',
+        code: '246810',
         agree: ''
       },
       loginLoading: false,
