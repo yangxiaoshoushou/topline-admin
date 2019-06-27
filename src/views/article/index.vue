@@ -5,7 +5,7 @@
       <div slot="header" class="clearfix">
         <span>筛选条件</span>
       </div>
-      <el-form ref="form" label-width="80px">
+      <el-form ref="form" :model="filterParams" label-width="80px">
         <el-form-item label="状态">
           <el-radio-group v-model="filterParams.status">
             <el-radio label="">全部</el-radio>
@@ -18,6 +18,7 @@
         </el-form-item>
         <el-form-item label="频道">
           <el-select v-model="filterParams.channel_id" placeholder="请选择活动区域">
+            <el-option label="全部" value=""></el-option>
             <el-option
               v-for="item in channels"
               :key="item.id"
@@ -94,6 +95,7 @@
         layout="prev, pager, next"
         :total="totalCount"
         :disabled="articleLoading"
+        :current-page="page"
         @current-change="handleCurrentChange"
       ></el-pagination>
     </el-card>
@@ -163,7 +165,6 @@ export default {
           page,
           per_page: 10,
           ...filterData
-          // ...this.filterParams
         }
       }).then(data => {
         this.articles = data.results
@@ -180,7 +181,7 @@ export default {
       })
     },
     onSubmit () {
-      // this.page = 1
+      this.page = 1
       this.loadArticles()
     },
     handleCurrentChange (page) {
