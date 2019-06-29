@@ -17,7 +17,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道">
-          <el-select v-model="filterParams.channel_id" placeholder="请选择活动区域">
+          <!-- <el-select v-model="filterParams.channel_id" placeholder="请选择活动区域">
             <el-option label="全部" value=""></el-option>
             <el-option
               v-for="item in channels"
@@ -25,7 +25,8 @@
               :label="item.name"
               :value="item.id"
             ></el-option>
-          </el-select>
+          </el-select> -->
+          <article-channel v-model="filterParams.channel_id"></article-channel>
         </el-form-item>
         <el-form-item label="时间">
           <el-date-picker
@@ -104,8 +105,12 @@
 
 <script>
 // const userInfo = JSON.parse(window.localStorage.getItem('user_info'))
+import ArticleChannel from '@/components/article-channel'
 export default {
   name: 'ArticleList',
+  components: {
+    ArticleChannel
+  },
   data () {
     return {
       articles: [],
@@ -134,7 +139,7 @@ export default {
           label: '已删除'
         }
       ],
-      channels: [],
+      // channels: [],
       filterParams: {
         status: '',
         channel_id: '',
@@ -146,7 +151,7 @@ export default {
   },
   created () {
     this.loadArticles()
-    this.loadChannels()
+    // this.loadChannels()
   },
   methods: {
     loadArticles (page = 1) {
@@ -172,14 +177,14 @@ export default {
         this.articleLoading = false
       })
     },
-    loadChannels () {
-      this.$http({
-        method: 'GET',
-        url: '/channels'
-      }).then(data => {
-        this.channels = data.channels
-      })
-    },
+    // loadChannels () {
+    //   this.$http({
+    //     method: 'GET',
+    //     url: '/channels'
+    //   }).then(data => {
+    //     this.channels = data.channels
+    //   })
+    // },
     onSubmit () {
       this.page = 1
       this.loadArticles()
