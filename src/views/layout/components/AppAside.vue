@@ -18,16 +18,16 @@
           <span>内容</span>
         </template>
         <el-menu-item index="/publish">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-edit"></i>
           <span slot="title">发布</span>
         </el-menu-item>
         <el-menu-item index="/article">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-icon-articles"></i>
           <span slot="title">内容列表</span>
         </el-menu-item>
       </el-submenu>
-        <el-menu-item index="1-4">
-          <i class="el-icon-menu"></i>
+        <el-menu-item index="/comment">
+          <i class="el-icon-comment"></i>
           <span slot="title">评论</span>
         </el-menu-item>
         <el-menu-item index="1-5">
