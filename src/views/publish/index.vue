@@ -44,6 +44,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
+
 export default {
   name: 'AppPublish',
   components: {
@@ -69,15 +70,16 @@ export default {
   },
   // 监视器articleForm
   // 当数据改变时会被触发调用
-  watch: {
-    articleForm: {
-      handler () {
-        console.log('123')
-        this.formDirty = true
-      },
-      deep: true
-    }
-  },
+  // 这里配置的监视器无法取消监视，会重复监视
+  // watch: {
+  //   articleForm: {
+  //     handler () {
+  //       console.log('123')
+  //       this.formDirty = true
+  //     },
+  //     deep: true
+  //   }
+  // },
   computed: {
     editor () {
       return this.$refs.myQuillEditor.quill
@@ -94,6 +96,10 @@ export default {
     //   this.loadArticle()
     // }
     this.isEdit && this.loadArticle()
+    // 如果是发布页面直接发起监视
+    if (this.$route.name === 'publish') {
+      this.watchForm()
+    }
   },
   mounted () {
     console.log('this is current quill instance object', this.editor)
@@ -105,8 +111,14 @@ export default {
         method: 'GET',
         url: `/articles/${this.articleId}`
       }).then(data => {
+        // 编辑页面的内容非用户修改的数据，所以不算是修改不需要立马监视
         this.articleForm = data
         this.editLoading = false
+        // nextTick是延时调用
+        this.$nextTick(() => {
+          // 更新数据之后开启监视
+          this.watchForm()
+        })
       }).catch(err => {
         console.log(err)
         this.$message.error('加载文章详情失败')
@@ -158,6 +170,16 @@ export default {
       }).catch(err => {
         console.log(err)
         this.$message.error('发布失败')
+      })
+    },
+    watchForm () {
+      const unWatch = this.$watch('articleForm', function () {
+        console.log('watchForm')
+        this.formDirty = true
+        // 关闭监视器
+        unWatch()
+      }, {
+        deep: true
       })
     }
   },
