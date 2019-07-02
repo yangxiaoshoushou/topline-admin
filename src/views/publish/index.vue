@@ -68,6 +68,22 @@ export default {
       formDirty: false
     }
   },
+  watch: {
+    $route (to, from) {
+      //  如果是从更新页面来的
+      if (from.name === 'publish-edit') {
+        this.articleForm = {
+          title: '',
+          content: '',
+          cover: {
+            type: 0,
+            inages: []
+          },
+          channel_id: ''
+        }
+      }
+    }
+  },
   // 监视器articleForm
   // 当数据改变时会被触发调用
   // 这里配置的监视器无法取消监视，会重复监视
