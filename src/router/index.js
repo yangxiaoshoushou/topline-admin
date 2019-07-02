@@ -45,40 +45,45 @@ const router = new Router({
           name: 'account-setting',
           path: '/account',
           component: () => import('@/views/account')
+        },
+        {// 素材
+          name: 'image',
+          path: '/image',
+          component: () => import('@/views/image')
         }
       ]
     },
     {
-      name: '',
+      name: 'Login',
       path: '/Login',
       component: () => import('@/views/Login')
     }
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   nprogress.start()
-//   const userInfo = window.localStorage.getItem('user_info')
+router.beforeEach((to, from, next) => {
+  nprogress.start()
+  const userInfo = window.localStorage.getItem('user_info')
 
-//   // 如果是非 /login 页面，判断其登录状态
-//   if (to.path !== '/login') {
-//     // 如果没有登录，让其跳转到登录页
-//     if (!userInfo) {
-//       next({ name: 'login' })
-//     } else {
-//       // 如果登录了，则允许通过
-//       next()
-//     }
-//   } else {
-//     // 如果登录了，就不允许访问登录页了
-//     if (userInfo) {
-//       next(false)
-//     } else {
-//       // 没有登录，才允许访问登录页
-//       next()
-//     }
-//   }
-// })
+  // 如果是非 /login 页面，判断其登录状态
+  if (to.path !== '/Login') {
+    // 如果没有登录，让其跳转到登录页
+    if (!userInfo) {
+      next({ name: 'Login' })
+    } else {
+      // 如果登录了，则允许通过
+      next()
+    }
+  } else {
+    // 如果登录了，就不允许访问登录页了
+    if (userInfo) {
+      next(false)
+    } else {
+      // 没有登录，才允许访问登录页
+      next()
+    }
+  }
+})
 router.afterEach((to, from) => {
   nprogress.done()
 })

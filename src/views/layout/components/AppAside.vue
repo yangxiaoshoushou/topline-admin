@@ -30,8 +30,8 @@
           <i class="el-icon-comment"></i>
           <span slot="title">评论</span>
         </el-menu-item>
-        <el-menu-item index="1-5">
-          <i class="el-icon-menu"></i>
+        <el-menu-item index="/image">
+          <i class="el-icon-image"></i>
           <span slot="title">素材</span>
         </el-menu-item>
       <el-submenu index="2">
