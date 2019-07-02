@@ -63,7 +63,19 @@ export default {
       },
       editorOption: {},
       editLoading: false,
-      publishLoading: false
+      publishLoading: false,
+      formDirty: false
+    }
+  },
+  // 监视器articleForm
+  // 当数据改变时会被触发调用
+  watch: {
+    articleForm: {
+      handler () {
+        console.log('123')
+        this.formDirty = true
+      },
+      deep: true
     }
   },
   computed: {
@@ -147,6 +159,18 @@ export default {
         console.log(err)
         this.$message.error('发布失败')
       })
+    }
+  },
+  // 控制离开时是否有未保存的数据
+  beforeRouteLeave (to, form, next) {
+    if (!this.formDirty) {
+      return next()
+    }
+    const answer = window.confirm('当前有未保存的数据，确定离开吗？')
+    if (answer) {
+      next()
+    } else {
+      next(false)
     }
   }
 }
